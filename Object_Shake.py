@@ -1,17 +1,35 @@
-import bpy
-import math
-import random
+# ##### BEGIN GPL LICENSE BLOCK #####
+#
+#  This program is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License
+#  as published by the Free Software Foundation; either version 2
+#  of the License, or (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program; if not, write to the Free Software Foundation,
+#  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# ##### END GPL LICENSE BLOCK #####
 
 bl_info = {"name": "Object Shake", 
             "category": "Animation", 
-            "author": "Tim Crellin (Thatimster)", 
-            "blender": (2,79,0), 
+            "author": "Tim Crellin (Thatimster), Yajuvendra (Blender2.82 update)", 
+            "blender": (2,80,0), 
             "location": "3D Toolbar", 
             "description":"Adds randomly generated shaking to any object",
             "warning": "",
             "wiki_url":"", 
             "tracker_url": "https://github.com/thatimster/object-shake", 
-            "version":(1,2)}
+            "version":(1,3)}
+
+import bpy
+import math
+import random
 
 shakeObjects = set()
 
@@ -294,14 +312,28 @@ class OBJECTSHAKE_PT_panel(bpy.types.Panel):
             row5 = layout.row()
             row5.operator("remove.shake", icon="CANCEL")
 
+classes=(
+ObjSettings,
+INIT_OT_properties,
+REMOVE_OT_shake,
+RANDOMIZE_OT_phase,
+OBJECT_PR_preferences,
+OBJECTSHAKE_PT_panel
+)
 
 def register():
-    bpy.utils.register_module(__name__)
+    for cls in classes:
+        bpy.utils.register_class(cls)
+
+#    bpy.utils.register_module(__name__)
     bpy.types.Object.objSettings = bpy.props.CollectionProperty(type=ObjSettings)
     bpy.app.handlers.frame_change_pre.append(updateHandler)
 
 
 def unregister():
-    bpy.utils.unregister_module(__name__)
+    for cls in classes:
+        bpy.utils.register_class(cls)
+
+#    bpy.utils.unregister_module(__name__)
     if updateHandler in bpy.app.handlers.frame_change_pre:
         bpy.app.handlers.frame_change_pre.remove(updateHandler)
