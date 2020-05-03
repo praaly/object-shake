@@ -195,7 +195,8 @@ class REMOVE_OT_shake(bpy.types.Operator):
         
         selectedObjects = getAllSelected(context)
         scn = context.scene
-
+        layer = context.view_layer
+		
         for s in selectedObjects:
             action = s.animation_data.action
 
@@ -211,7 +212,8 @@ class REMOVE_OT_shake(bpy.types.Operator):
 
             #go to keyframe
             scn.frame_set(s.objSettings[0].insertFrame)
-            scn.update()
+            #scn.update()
+            layer.update()
 
             s.keyframe_delete("location")
             s.keyframe_delete("rotation_euler")
@@ -332,7 +334,7 @@ def register():
 
 def unregister():
     for cls in classes:
-        bpy.utils.register_class(cls)
+        bpy.utils.unregister_class(cls)
 
 #    bpy.utils.unregister_module(__name__)
     if updateHandler in bpy.app.handlers.frame_change_pre:
