@@ -3,7 +3,7 @@ A Blender 3D addon to make adding object shake easy and flexible.
 
 original work "https://github.com/thatimster/object-shake"
 
-NOTE: Still remove animation is not working.
+I have fixed the changes for the latest release incompatibility.
 
 # How to install
 1. Download and unzip folder
